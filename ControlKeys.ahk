@@ -1,5 +1,5 @@
 ; Copyright (c) 2007-2012 Pavel Chikulaev
-; Modified by Degtyar Eugene aka MrJackhpil
+; Modified by Degtyar Eugene aka MrJackphil
 ; Distributed under BSD license
 
 SetTitleMatchMode,RegEx
@@ -47,7 +47,11 @@ MyAppsKeyHotkeys(enable)
       Gui, Add, Text,, . - TglSnd
       Gui, Add, Text,, 0 - Home
       Gui, Add, Text,, E - Block
-      Gui, -Border -Resize -MaximizeBox +AlwaysOnTop +Disabled +ToolWindow
+      ; Make a transparent background
+      Gui, Color, FFFFFFAA
+      Gui +LastFound
+
+      Gui, -Caption -Border -Resize -MaximizeBox +AlwaysOnTop +Disabled +ToolWindow
       Gui, Show, x%width% y0 NoActivate
    }
     ;Hotkey, IfWinNotActive, ahk_exe (sublime_text.exe)
@@ -65,16 +69,16 @@ MyAppsKeyHotkeys(enable)
      HotKey, *l, MyRight, %enable%
      Hotkey, *m, MyApps,  %enable%
      HotKey, *n, MyPgDn,  %enable%
-     HotKey, *o, MyEnd,   %enable%
+    ;HotKey, *o, MyEnd,   %enable%
      HotKey, *p, MyBS,    %enable%
     ;HotKey,  q, MyEmpty, %enable%
     ;HotKey,  r, MyEmpty, %enable%
     ;HotKey,  s, MyEmpty, %enable%
     ;HotKey,  t, MyEmpty, %enable%
-     HotKey, *u, MyEnter,  %enable%
+     HotKey, *u, MyEnter, %enable%
     ;HotKey,  v, MyEmpty, %enable%
     ;HotKey,  w, MyEmpty, %enable%
-     HotKey,  x, MyDel, %enable%
+     HotKey,  x, MyDel,   %enable%
      Hotkey, *y, MyEsc,   %enable%
     ;HotKey,  z, MyEmpty, %enable%
      HotKey, *;, MyEnter, %enable%
@@ -83,8 +87,9 @@ MyAppsKeyHotkeys(enable)
     ;HotKey,  ', MyEmpty, %enable%
      HotKey,  ., MySoundToggle, %enable%
     ;HotKey,  /, MyEmpty, %enable%
-     HotKey,  0, MyHome, %enable%
-     HotKey,  e, Block, %enable%
+     HotKey, *^, MyHome,  %enable%
+     HotKey, *$, MyEnd,   %enable%
+     HotKey,  e, Block,   %enable%
 }
 FirefoxActive:
    press_count += 1
