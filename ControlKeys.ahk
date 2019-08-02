@@ -1,4 +1,5 @@
 ; Copyright (c) 2007-2012 Pavel Chikulaev
+; Modified by Degtyar Eugene aka MrJackhpil
 ; Distributed under BSD license
 
 SetTitleMatchMode,RegEx
@@ -26,14 +27,30 @@ MyAppsKeyHotkeys(enable)
    }
    else
    {
-      width := A_ScreenWidth-50
+      width := A_ScreenWidth-150
       Menu, TRAY, Icon, %A_ScriptDir%\Letter-C.ico
       Gui, Name: New
-      Gui, Add, Picture, w25 h-1, %A_ScriptDir%\Letter-C.ico
+      Gui, Add, Text,, F - FF
+      Gui, Add, Text,, Q - MouseOff
+      Gui, Add, Text,, H - Left
+      Gui, Add, Text,, L - Right
+      Gui, Add, Text,, K - Up
+      Gui, Add, Text,, J - Down
+      Gui, Add, Text,, M - Apps
+      Gui, Add, Text,, N - PgDn
+      Gui, Add, Text,, P - Bs
+      Gui, Add, Text,, O - End
+      Gui, Add, Text,, U - Enter
+      Gui, Add, Text,, X - Del
+      Gui, Add, Text,, Y - Esc
+      Gui, Add, Text,, ; - Enter
+      Gui, Add, Text,, . - TglSnd
+      Gui, Add, Text,, 0 - Home
+      Gui, Add, Text,, E - Block
       Gui, -Border -Resize -MaximizeBox +AlwaysOnTop +Disabled +ToolWindow
       Gui, Show, x%width% y0 NoActivate
    }
-     Hotkey, IfWinNotActive, ahk_exe (sublime_text.exe)
+    ;Hotkey, IfWinNotActive, ahk_exe (sublime_text.exe)
     ;HotKey,  a, MyEmpty, %enable%
     ;HotKey,  b, MyEmpty, %enable%
     ;HotKey,  c, MyEmpty, %enable%
