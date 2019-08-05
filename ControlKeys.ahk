@@ -13,8 +13,6 @@ if not A_IsAdmin
 
 #InstallKeybdHook
 
-
-
 press_count = 0
 width_toggled = 0
 
@@ -28,32 +26,7 @@ MyAppsKeyHotkeys(enable)
    }
    else
    {
-      width := A_ScreenWidth-150
-      Menu, TRAY, Icon, %A_ScriptDir%\Letter-C.ico
-      Gui, Name: New
-      Gui, Add, Text,, F - FF
-      Gui, Add, Text,, Q - MouseOff
-      Gui, Add, Text,, H - Left
-      Gui, Add, Text,, L - Right
-      Gui, Add, Text,, K - Up
-      Gui, Add, Text,, J - Down
-      Gui, Add, Text,, M - Apps
-      Gui, Add, Text,, N - PgDn
-      Gui, Add, Text,, P - Bs
-      Gui, Add, Text,, U - Enter
-      Gui, Add, Text,, X - Del
-      Gui, Add, Text,, Y - Esc
-      Gui, Add, Text,, ; - Enter
-      Gui, Add, Text,, . - TglSnd
-      Gui, Add, Text,, ^ - Home
-      Gui, Add, Text,, $ - End
-      Gui, Add, Text,, E - Block
-      ; Make a transparent background
-      Gui, Color, FFFFFFAA
-      Gui +LastFound
-
-      Gui, -Caption -Border -Resize -MaximizeBox +AlwaysOnTop +Disabled +ToolWindow
-      Gui, Show, x%width% y0 NoActivate
+	  moveHelp(true)
    }
     ;Hotkey, IfWinNotActive, ahk_exe (sublime_text.exe)
     ;HotKey,  a, MyEmpty, %enable%
@@ -114,7 +87,7 @@ moveHelp(isLeft)
   Gui, Add, Text,, ^ - Home
   Gui, Add, Text,, $ - End
   Gui, Add, Text,, E - Block
-  ; Make a transparent background
+  ; Make a white background
   Gui, Color, FFFFFFAA
   Gui +LastFound
 
