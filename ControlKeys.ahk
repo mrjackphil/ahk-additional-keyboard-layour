@@ -55,7 +55,7 @@ MyAppsKeyHotkeys(enable)
      HotKey,  x, MyDel,   %enable%
      Hotkey, *y, MyEsc,   %enable%
     ;HotKey,  z, MyEmpty, %enable%
-     HotKey, *;, MyEnter, %enable%
+    ;HotKey, *;, MyEnter, %enable%
      HotKey, *[, MyDel,   %enable%
     ;HotKey,  ], MyEmpty, %enable%
     ;HotKey,  ', MyEmpty, %enable%
@@ -82,7 +82,6 @@ moveHelp(isLeft)
   Gui, Add, Text,, U - Enter
   Gui, Add, Text,, X - Del
   Gui, Add, Text,, Y - Esc
-  Gui, Add, Text,, ; - Enter
   Gui, Add, Text,, . - TglSnd
   Gui, Add, Text,, ^ - Home
   Gui, Add, Text,, $ - End
