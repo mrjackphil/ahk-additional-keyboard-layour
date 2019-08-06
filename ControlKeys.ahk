@@ -30,7 +30,7 @@ MyAppsKeyHotkeys(enable)
    }
     ;Hotkey, IfWinNotActive, ahk_exe (sublime_text.exe)
     ;HotKey,  a, MyEmpty, %enable%
-    ;HotKey,  b, MyEmpty, %enable%
+     HotKey,  b, MyPgUp, %enable%
     ;HotKey,  c, MyEmpty, %enable%
     ;HotKey,  d, MyEmpty, %enable%
     ;HotKey,  e, MyEmpty, %enable%
@@ -77,6 +77,7 @@ moveHelp(isLeft)
   Gui, Add, Text,, K - Up
   Gui, Add, Text,, J - Down
   Gui, Add, Text,, M - Apps
+  Gui, Add, Text,, B - PgUp
   Gui, Add, Text,, N - PgDn
   Gui, Add, Text,, P - Bs
   Gui, Add, Text,, U - Enter
