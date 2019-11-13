@@ -60,7 +60,7 @@ MyAppsKeyHotkeys(enable) {
      HotKey, *[, MyDel,   %enable%
      Hotkey, Space, MyMouseClick, %enable%
      Hotkey, Space Up, MyMouseClickUp, %enable%
-     Hotkey, !Space, MyMouseRClick, %enable%
+     Hotkey, +Space, MyMouseRClick, %enable%
     ;HotKey,  ], MyEmpty, %enable%
     ;HotKey,  ', MyEmpty, %enable%
      HotKey,  ., MySoundToggle, %enable%
@@ -159,13 +159,19 @@ MyMouseOff:
    SendEvent {Click 1712, 220}
    Return
 MyMouseClick:
-  SendEvent {Click down}
+  if (mouse_mode) {
+    SendEvent {Click down}
+  } else {
+    SendEvent {Space} 
+  }
   Return
 MyMouseClickUp:
-   SendEvent {Click up}
-   Return
+  if (mouse_mode) {
+    SendEvent {Click up}
+  }
+  Return
 MyMouseRClick:
-   SendEvent {Click down}
+   SendEvent {Click right}
    Return
 Block:
   press_count += 1
