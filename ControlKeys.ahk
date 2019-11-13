@@ -1,4 +1,4 @@
-; Copyright (c) 2007-2012 Pavel Chikulaev
+; Originally developed by Pavel Chikulaev
 ; Modified by Degtyar Eugene aka MrJackphil
 ; Distributed under BSD license
 
@@ -13,13 +13,14 @@ if not A_IsAdmin
 
 #InstallKeybdHook
 
-press_count = 0
-width_toggled = 0
+press_count := 0
+global width_toggled := 0
+global mouse_mode := 0
 
-MyAppsKeyHotkeys(enable)
-{
+MyAppsKeyHotkeys(enable) {
    if (enable = "Off")
    {
+      mouse_mode := 0
       Menu, TRAY, Icon, %A_ScriptDir%\Letter-E.ico
       Gui, Name: New
       Gui, Destroy
@@ -41,12 +42,12 @@ MyAppsKeyHotkeys(enable)
      HotKey, *j, MyDown,  %enable%
      HotKey, *k, MyUp,    %enable%
      HotKey, *l, MyRight, %enable%
-     Hotkey, *m, MyApps,  %enable%
+     Hotkey, *m, MyToggleMouse,  %enable%
      HotKey, *n, MyPgDn,  %enable%
     ;HotKey, *o, MyEnd,   %enable%
      HotKey, *p, MyBS,    %enable%
     ;HotKey,  q, MyEmpty, %enable%
-    ;HotKey,  r, MyEmpty, %enable%
+     HotKey,  r, MyApps, %enable%
     ;HotKey,  s, MyEmpty, %enable%
     ;HotKey,  t, MyEmpty, %enable%
      HotKey, *u, MyEnter, %enable%
@@ -57,6 +58,9 @@ MyAppsKeyHotkeys(enable)
     ;HotKey,  z, MyEmpty, %enable%
     ;HotKey, *;, MyEnter, %enable%
      HotKey, *[, MyDel,   %enable%
+     Hotkey, Space, MyMouseClick, %enable%
+     Hotkey, Space Up, MyMouseClickUp, %enable%
+     Hotkey, !Space, MyMouseRClick, %enable%
     ;HotKey,  ], MyEmpty, %enable%
     ;HotKey,  ', MyEmpty, %enable%
      HotKey,  ., MySoundToggle, %enable%
@@ -65,8 +69,7 @@ MyAppsKeyHotkeys(enable)
      HotKey, *$, MyEnd,   %enable%
      HotKey,  e, Block,   %enable%
 }
-moveHelp(isLeft)
-{
+moveHelp(isLeft) {
   width := A_ScreenWidth-150
   Menu, TRAY, Icon, %A_ScriptDir%\Letter-C.ico
   Gui, Name: New
@@ -76,9 +79,10 @@ moveHelp(isLeft)
   Gui, Add, Text,, L - Right
   Gui, Add, Text,, K - Up
   Gui, Add, Text,, J - Down
-  Gui, Add, Text,, M - Apps
+  Gui, Add, Text,, R - Apps
   Gui, Add, Text,, B - PgUp
   Gui, Add, Text,, N - PgDn
+  Gui, Add, Text,, M - Mouse
   Gui, Add, Text,, P - Bs
   Gui, Add, Text,, U - Enter
   Gui, Add, Text,, X - Del
@@ -99,6 +103,31 @@ moveHelp(isLeft)
   }
   return
 }
+updateTooltip(mode) {
+  if (mode) {
+    ToolTip, "Mouse Mode"
+    SetTimer, updateTooltip, 0 
+  } else {
+    ToolTip
+  }
+}
+mouseSpeed() {
+  shiftPressed := GetKeyState("Shift", "P")
+  ctrlPressed  := GetKeyState("Ctrl", "P")
+
+  if (shiftPressed) {
+    return 100 
+  }
+  if (ctrlPressed) {
+    return 1
+  }
+
+  return 10
+}
+
+updateTooltip: 
+  updateTooltip(mouse_mode)
+  return
 HelpMove:
   press_count += 1
   if (width_toggled = 0) 
@@ -129,11 +158,28 @@ MyMouseOff:
    KeyWait, i
    SendEvent {Click 1712, 220}
    Return
+MyMouseClick:
+  SendEvent {Click down}
+  Return
+MyMouseClickUp:
+   SendEvent {Click up}
+   Return
+MyMouseRClick:
+   SendEvent {Click down}
+   Return
 Block:
   press_count += 1
   CoordMode, Mouse
   SendEvent, {Click 1322, 945}
   SendEvent, {Click 1678, 887}
+  Return
+MyToggleMouse:
+  if (mouse_mode) {
+    mouse_mode = 0
+  } else {
+    mouse_mode = 1
+    updateTooltip(mouse_mode)
+  }
   Return
 MySoundToggle:
    press_count += 1           
@@ -143,19 +189,35 @@ MyEmpty:
  ;  Return
 MyUp:
    press_count += 1
-   Send {Blind}{Up} ;fix for OneNote use SendPlay
+   if (mouse_mode) {
+     MouseMove, 0, -mouseSpeed(), 10, R
+   } else {
+     Send {Blind}{Up} ;fix for OneNote use SendPlay
+   }
    Return
 MyDown:
    press_count += 1
-   Send {Blind}{Down} ;fix for OneNote use SendPlay
+   if (mouse_mode) {
+     MouseMove, 0, mouseSpeed(), 10, R
+   } else {
+     Send {Blind}{Down} ;fix for OneNote use SendPlay
+   }
    Return
 MyLeft:
    press_count += 1
-   Send {Blind}{Left}
+   if (mouse_mode) {
+     MouseMove, -mouseSpeed(), 0, 10, R
+   } else {
+     Send {Blind}{Left}
+   }
    Return
 MyRight:
    press_count += 1
-   Send {Blind}{Right}
+   if (mouse_mode) {
+     MouseMove, mouseSpeed(), 0, 10, R
+   } else {
+     Send {Blind}{Right}
+   }
    Return
 MyPgUp:
    press_count += 1
