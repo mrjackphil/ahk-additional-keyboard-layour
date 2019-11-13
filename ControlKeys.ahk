@@ -13,6 +13,22 @@ if not A_IsAdmin
 
 #InstallKeybdHook
 
+Loop
+{
+   Input, SingleKey, L1 V
+   {
+	  SetFormat, Integer, H
+	  lang := DllCall("GetKeyboardLayout", Int,DllCall("GetWindowThreadProcessId", int,WinActive("A"), Int,0))
+	  SetFormat, Integer, D
+
+	  if (lang = "0x4090409") {
+	      SoundPlay, %A_ScriptDir%\typeeng.wav
+	  } else {
+	      SoundPlay, %A_ScriptDir%\typerus.wav
+	  }
+   }
+}
+
 press_count := 0
 global width_toggled := 0
 global mouse_mode := 0
